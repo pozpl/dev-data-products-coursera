@@ -1,31 +1,20 @@
-if (!exists(".inflation")) {
-  .inflation <- getSymbols('CPIAUCNS', src = 'FRED', 
-     auto.assign = FALSE)
-}  
+library(quantmod)
+library(forecast)
+library(ggplot2)
+inputData <- getFX('BTC/USD',auto.assign = FALSE)
+fore <- forecast(inputData, h=10)
+plot(fore,axes = FALSE)
+axis(2)
+axis(1,at = pretty(1:length(index(inputData)), n = length(index(inputData))),
+     labels = index(inputData),
+     cex.axis = 0.65)
 
-# adjusts yahoo finance data with the monthly consumer price index 
-# values provided by the Federal Reserve of St. Louis
-# historical prices are returned in present values 
-adjust <- function(data) {
-
-      latestcpi <- last(.inflation)[[1]]
-      inf.latest <- time(last(.inflation))
-      months <- split(data)               
-      
-      adjust_month <- function(month) {               
-        date <- substr(min(time(month[1]), inf.latest), 1, 7)
-        coredata(month) * latestcpi / .inflation[date][[1]]
-      }
-      
-      adjs <- lapply(months, adjust_month)
-      adj <- do.call("rbind", adjs)
-      axts <- xts(adj, order.by = time(data))
-      axts[ , 5] <- Vo(data)
-      axts
-}
+ggplot(fore,aes(x,y))+geom_line(aes(color="First line"))+
+    #geom_line(data=df2,aes(color="Second line"))+
+    labs(color="Legend text")
 
 gg_fore <- function(forec.obj, data.color = 'blue', fit.color = 'red', forec.color = 'black',
-                    lower.fill = 'darkgrey', upper.fill = 'grey', format.date = F)
+         lower.fill = 'darkgrey', upper.fill = 'grey', format.date = F)
 {
     serie.orig = forec.obj$x
     serie.fit = forec.obj$fitted
@@ -40,7 +29,6 @@ gg_fore <- function(forec.obj, data.color = 'blue', fit.color = 'red', forec.col
     
     forec.M = cbind(forec.obj$mean, forec.obj$lower[, 1:2], forec.obj$upper[, 1:2])
     forec.df = as.data.frame(forec.M)
-    print(colnames(forec.df));
     colnames(forec.df) = c('forec.val', 'l0', 'l1', 'u0', 'u1')
     
     if(format.date)
