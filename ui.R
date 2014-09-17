@@ -28,6 +28,15 @@ shinyUI(fluidPage(
         ),
         
         
-        mainPanel(plotOutput("plot"))
+        mainPanel(
+            plotOutput("plot"),
+            
+            h3("Documantation"),
+            tags$ul(
+                tags$li("Select currency rate to predict in dropdown list"), 
+                tags$li("Use daterange selcectors to trainig range"), 
+                tags$li("You can choose prediction range with help of slider")
+            )
+        )
     )
 ))
