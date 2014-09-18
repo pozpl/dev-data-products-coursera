@@ -31,14 +31,14 @@ fore <- forecast(inputData, h=10)
 fore
 ```
 
-Plottin a forecast
+Plotting a forecast
 ========================================================
 
 ```{r, echo=FALSE}
 plot(fore)
 ```
 
-Accnowlegments 
+Acknowledgements 
 ========================================================
 ## Thank you for your time!
 
