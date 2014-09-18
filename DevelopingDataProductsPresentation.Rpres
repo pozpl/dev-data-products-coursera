@@ -3,33 +3,49 @@ Visualisation of currency rates forecasting
 author: Pavel Pozdnyak
 date: 2014-09-18
 
-Visualisation of currency rates forecasting
+Prerequisites
 ========================================================
 
-For more details on authoring R presentations click the
-**Help** button on the toolbar.
-
-- Bullet 1
-- Bullet 2
-- Bullet 3
-
-Slide With Code
-========================================================
-
+First of all we must load all necessary libraries
 ```{r}
-summary(cars)
+library(quantmod)
+library(forecast)
+```
+And then load for currencies rates with *getFX* function
+```{r, eval=FALSE}
+ getFX(input$currency, 
+       from = input$dates[1], 
+       to = input$dates[2],     
+       auto.assign = FALSE)
+```
+Plot currency rates chart
+========================================================
+After obtaining currency rate application do some forecasting for period given by a user
+```{r, eval=FALSE}
+fore <- forecast(dataInput(), 
+                 h=input$fore_days)
+```
+```{r,echo=FALSE}
+inputData <- getFX('BTC/USD',auto.assign = FALSE)
+fore <- forecast(inputData, h=10)
+fore
 ```
 
-Slide With Plot
+Plottin a forecast
 ========================================================
 
 ```{r, echo=FALSE}
-plot(cars)
+plot(fore)
 ```
 
-Slide With Plot
+Accnowlegments 
 ========================================================
+## Thank you for your time!
 
-```{r, echo=FALSE}
-plot(cars)
-```
+Link to application installation
+
+[https://pozpl.shinyapps.io/DevelopingDataProductsCP/](https://pozpl.shinyapps.io/DevelopingDataProductsCP/)
+
+Link to github
+
+[https://github.com/pozpl/dev-data-products-coursera](https://github.com/pozpl/dev-data-products-coursera)
