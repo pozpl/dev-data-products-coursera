@@ -8,7 +8,7 @@ shinyUI(fluidPage(
             helpText("Select currency rates for prediction."),
             
             selectInput("currency", "Currency", 
-                        choices=c("BTC/USD", "USD/EUR", "BTC/RUB")),
+                        choices=c("BTC/USD", "USD/EUR", "BTC/RUB", "USD/RUB")),
             
             dateRangeInput("dates", 
                            "Date range",
